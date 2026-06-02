@@ -1,10 +1,5 @@
-install:
-    npm install
-lint:
-    npx eslint .
-develop:
-    npx vite
-build:
-    npx vite build
-sonar:
-    npx sonarqube-scanner
+install: ; npm install
+develop: ; npm run dev
+build: ; npm run build
+lint: ; npx eslint .
+sonar: ; npx sonarqube-scanner
