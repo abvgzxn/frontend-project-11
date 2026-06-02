@@ -1,4 +1,5 @@
-name: Lint
+# .github/workflows/lint.yml
+name: Lint and Analyze
 
 on:
   push:
@@ -8,12 +9,14 @@ on:
 
 jobs:
   run-linters:
-    name: Run linters
+    name: Run linters and analyze
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -25,4 +28,15 @@ jobs:
         run: npm ci
 
       - name: Run linter
-        run: make lint
+        run: make lint  
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectBaseDir=.
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.branch.name=${{ github.head_ref || github.ref_name }}

@@ -6,3 +6,5 @@ develop:
     npx vite
 build:
     npx vite build
+sonar:
+    npx sonarqube-scanner
