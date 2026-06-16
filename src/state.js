@@ -4,7 +4,7 @@ const initialState = {
   form: {
     url: '',
     isValid: false,
-    error: null,
+    errorKey: null,
   },
   feeds: [],
 };

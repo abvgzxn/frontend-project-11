@@ -1,13 +1,16 @@
 export default {
   translation: {
-    languages: { en: 'English', ru: 'Русский' },
-    buttons: {
-      counter: {
-        count_one: '{{count}} клик',
-        count_few: '{{count}} клика',
-        count_many: '{{count}} кликов',
-      },
-      reset: 'Сбросить',
+    title: 'RSS агрегатор',
+    form: {
+      label: 'Ссылка RSS',
+      placeholder: 'Введите URL RSS',
+      submit: 'Добавить',
+    },
+    errors: {
+      required: 'Не должно быть пустым',
+      url: 'Ссылка должна быть валидным URL',
+      duplicate: 'Этот RSS-поток уже добавлен',
+      unknown: 'Неизвестная ошибка',
     },
   },
 };
