@@ -1,5 +1,6 @@
 import { validateUrl } from './validator.js';
 import { state } from './state.js';
+import { loadFeed, parseFeed } from './parser.js'; 
 import { uniqueId } from 'lodash';
 
 export default function runApp() {
@@ -20,15 +21,15 @@ export default function runApp() {
           id: feedId,
           title: parsed.feed.title || 'Без названия',
           description: parsed.feed.description || '',
-          postsId: [],
+          postsIds: [],
         };
-        const newPosts = parded.posts.map((post) => ({
+        const newPosts = parsed.posts.map((post) => ({
           id: uniqueId('post_'),
           title: post.title || 'Без заголовка',
           link: post.link || '#',
           feedId: feedId,
         }));
-        state.feeds.push(newFeeed);
+        state.feeds.push(newFeed);
         state.posts.push(...newPosts);
 
         state.form.url = '';
