@@ -8,6 +8,8 @@ const render = () => {
   const input= document.getElementById('rss-url');
   const submitButton = document.querySelector('#rss-form button[type="submit"]');
   const feedbackEl = input?.nextElementSibling;
+  const feedsContainer = document.querySelector('#feeds-container');
+  const postsContainer = document.querySelector('#posts-container');
 
 if (input && input.value !== snap.form.url) {
     input.value = snap.form.url;
@@ -35,6 +37,34 @@ if (input && input.value !== snap.form.url) {
   }
   if (submitBtn && submitBtn.textContent !== i18n.t('form.submit')) {
     submitBtn.textContent = i18n.t('form.submit');
+  }
+
+  feedsContainer.innerHTML = '';
+  postsContainer.innerHTML = '';
+  feedsContainer.innerHTML = `<h3>${i18n.t('sections.feeds')}</h3>`;
+  postsContainer.innerHTML = `<h3>${i18n.t('sections.posts')}</h3>`;
+  if (snap.feeds.length > 0) {
+    const feedList = document.createElement('div');
+    snap.feeds.forEach(feed => {
+      const feedEl = document.createElement('div');
+      feedEl.innerHTML = `<b>${feed.title}</b><p>${feed.description}</p>`;
+      feedList.appendChild(feedEl);
+    });
+    feedsContainer.appendChild(feedList);
+  }
+
+  if (snap.posts.length >0) {
+    const postList = document.createElement('ul');
+    snap.posts.forEach(post => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = post.link
+      a.textContent = post.title;
+      a.target = '_blank';
+      li.appendChild(a);
+      postList.appendChild(li);
+    });
+    postsContainer.appendChild(postList);
   }
 };
 
