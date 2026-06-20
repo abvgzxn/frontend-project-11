@@ -10,3 +10,5 @@ export const initI18n = () => {
     interpolation: { escapeValue: false }
   });
 };
+
+export { i18n };
