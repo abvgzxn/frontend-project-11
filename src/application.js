@@ -2,6 +2,7 @@ import { validateUrl } from './validator.js';
 import { state } from './state.js';
 import { loadFeed, parseFeed } from './parser.js'; 
 import { uniqueId } from 'lodash';
+import { startUpdating } from './updater.js';
 
 export default function runApp() {
   const form = document.getElementById('rss-form');
@@ -19,6 +20,7 @@ export default function runApp() {
         const feedId = uniqueId('feed_');
         const newFeed = {
           id: feedId,
+          url: url,
           title: parsed.feed.title || 'Без названия',
           description: parsed.feed.description || '',
           postsIds: [],
@@ -31,6 +33,10 @@ export default function runApp() {
         }));
         state.feeds.push(newFeed);
         state.posts.push(...newPosts);
+
+          if (state.feeds.length === 1) {
+          startUpdating();
+          }
 
         state.form.url = '';
         state.form.isValid = false;
