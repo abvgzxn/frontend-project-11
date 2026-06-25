@@ -18,5 +18,8 @@ export default {
       network: 'Network error. Please try again.',
       parsing: 'Invalid RSS feed format'
     },
+    buttons: {
+      preview: 'Preview'
+    }
   },
 };

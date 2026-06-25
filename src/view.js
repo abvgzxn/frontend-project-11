@@ -1,6 +1,7 @@
 import { snapshot, subscribe } from 'valtio/vanilla';
 import { state } from './state.js';
 import { i18n } from './i18n.js';
+import { Modal } from 'bootstrap';
 
 const render = () => {
   const snap = snapshot(state);
@@ -57,11 +58,41 @@ const render = () => {
     const postList = document.createElement('ul');
     snap.posts.forEach(post => {
       const li = document.createElement('li');
-      const a = document.createElement('a');
+
+      const container = document.createElement('div');
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.gap = '8px';
+
+      const a = document.createElement ('a');
       a.href = post.link;
       a.textContent = post.title;
       a.target = '_blank';
-      li.appendChild(a);
+
+      const isRead = snap.readPosts.includes(post.id);
+      a.className = isRead ? 'fw-normal' : 'fw-bold';
+
+      const previewBtn = document.createElement('button');
+      previewBtn.type = 'button';
+      previewBtn.className = 'btn btn-sm btn-outline-primary';
+      previewBtn.textContent = i18n.t('buttons.preview');
+      previewBtn.addEventListener ('click', (e) => {
+        e.stopPropagation();
+
+        if (!state.readPosts.includes(post.id)) {
+          state.readPosts.push(post.id);
+        }
+        const modalTitle = document.getElementById('postModalTitle');
+        const modalBody = document.getElementById('postModalBody');
+        const modalLink = document.getElementById('postModalLink');
+        modalTitle.textContent = post.title;
+        modalBody.textContent = post.description || 'Нет описания';
+        modalLink.href = post.link;
+        const modal = new Modal (document.getElementById('postModal'));
+        modal.show();
+      });
+      container.append(a, previewBtn);
+      li.appendChild(container);
       postList.appendChild(li);
     });
     postsContainer.appendChild(postList);

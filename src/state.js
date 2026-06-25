@@ -7,7 +7,8 @@ const initialState = {
     errorKey: null,
   },
   feeds: [],
-  posts: []
+  posts: [],
+  readPosts: []
 };
 
 export const state = proxy(initialState);
