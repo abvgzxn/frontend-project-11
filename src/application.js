@@ -1,6 +1,6 @@
 import { validateUrl } from './validator.js';
 import { state } from './state.js';
-import { loadFeed, parseFeed } from './parser.js'; 
+import { loadFeed, parseFeed } from './parser.js';
 import { uniqueId } from 'lodash';
 import { startUpdating } from './updater.js';
 
@@ -14,7 +14,11 @@ export default function runApp() {
     state.form.url = url;
 
     validateUrl(url)
-      .then(() => loadFeed(url))
+      .then(() => {
+        state.form.isValid = true;
+        state.form.errorKey = null;
+        return loadFeed(url);
+      })
       .then((xml) => parseFeed(xml))
       .then((parsed) => {
         const feedId = uniqueId('feed_');
@@ -31,15 +35,16 @@ export default function runApp() {
           link: post.link || '#',
           feedId: feedId,
         }));
+
         state.feeds.push(newFeed);
         state.posts.push(...newPosts);
 
-          if (state.feeds.length === 1) {
+        if (state.feeds.length === 1) {
           startUpdating();
-          }
+        }
 
         state.form.url = '';
-        state.form.isValid = true;
+        state.form.isValid = false; 
         state.form.errorKey = null;
         input.focus();
       })
