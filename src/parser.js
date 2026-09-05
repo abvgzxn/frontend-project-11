@@ -6,12 +6,12 @@ const loadFeed = (url) => {
   return axios.get(proxyUrl)
     .then(response => {
       if (response.status !== 200 || !response.data?.contents) {
-        return Promise.reject({ type: 'network' });
+        throw { type: 'network' }; 
       }
       return response.data.contents;
     })
     .catch(() => {
-      return Promise.reject({ type: 'network' });
+      throw { type: 'network' }; 
     });
 };
 
@@ -20,12 +20,12 @@ const parseFeed = (xml) => {
   const doc = parser.parseFromString(xml, 'text/xml');
 
   if (doc.querySelector('parsererror')) {
-    return Promise.reject({ type: 'parsing' });
+    throw { type: 'parsing' }; 
   }
 
   const channel = doc.querySelector('channel');
   if (!channel) {
-    return Promise.reject({ type: 'parsing' });
+    throw { type: 'parsing' };
   }
 
   const title = channel.querySelector('title')?.textContent || '';
@@ -33,7 +33,7 @@ const parseFeed = (xml) => {
 
   const items = channel.querySelectorAll('item');
   if (items.length === 0) {
-    return Promise.reject({ type: 'parsing' });
+    throw { type: 'parsing' };
   }
 
   const posts = Array.from(items).map(item => ({
@@ -44,4 +44,4 @@ const parseFeed = (xml) => {
   return { feed: { title, description }, posts };
 };
 
-export { loadFeed, parseFeed };
+export { loadFeed, parseFeed }
