@@ -10,16 +10,17 @@ const render = () => {
   const feedsContainer = document.querySelector('#feeds-container');
   const postsContainer = document.querySelector('#posts-container');
 
-  if (input && input.value !== snap.form.url) {
-    input.value = snap.form.url;
+  if (input?.value !== snap.form.url) {
+    if (input) input.value = snap.form.url;
   }
 
-  if (feedbackEl && feedbackEl.classList.contains('invalid-feedback')) {
+
+  if (feedbackEl?.classList.contains('invalid-feedback')) {
     if (snap.form.errorKey) {
-      input.classList.add('is-invalid');
+      input?.classList.add('is-invalid');
       feedbackEl.textContent = i18n.t(snap.form.errorKey);
     } else {
-      input.classList.remove('is-invalid');
+      input?.classList.remove('is-invalid');
       feedbackEl.textContent = '';
     }
   }
@@ -30,12 +31,14 @@ const render = () => {
 
   const label = document.querySelector('label[for="rss-url"]');
   if (label) label.textContent = i18n.t('form.label');
+
   const placeholderAttr = input?.getAttribute('placeholder');
   if (input && placeholderAttr !== i18n.t('form.placeholder')) {
     input.setAttribute('placeholder', i18n.t('form.placeholder'));
   }
-  if (submitButton && submitButton.textContent !== i18n.t('form.submit')) {
-    submitButton.textContent = i18n.t('form.submit');
+
+  if (submitButton?.textContent !== i18n.t('form.submit')) {
+    if (submitButton) submitButton.textContent = i18n.t('form.submit');
   }
 
   feedsContainer.innerHTML = '';
@@ -86,11 +89,10 @@ const render = () => {
         const modalBody = document.getElementById('postModalBody');
         const modalLink = document.getElementById('postModalLink');
 
-        modalTitle.textContent = post.title;
-        modalBody.textContent = post.description || 'Нет описания';
-        modalLink.href = post.link;
-
-        modal.showModal();
+        if (modalTitle) modalTitle.textContent = post.title;
+        if (modalBody) modalBody.textContent = post.description || 'Нет описания';
+        if (modalLink) modalLink.href = post.link;
+        if (modal) modal.showModal();
       });
 
       container.append(a, previewBtn);

@@ -6,12 +6,16 @@ const loadFeed = (url) => {
   return axios.get(proxyUrl)
     .then(response => {
       if (response.status !== 200 || !response.data?.contents) {
-        throw { type: 'network' }; 
+        const err = new Error('Network error');
+        err.type = 'network';
+        throw err;
       }
       return response.data.contents;
     })
     .catch(() => {
-      throw { type: 'network' }; 
+      const err = new Error('Network error');
+      err.type = 'network';
+      throw err;
     });
 };
 
@@ -20,12 +24,16 @@ const parseFeed = (xml) => {
   const doc = parser.parseFromString(xml, 'text/xml');
 
   if (doc.querySelector('parsererror')) {
-    throw { type: 'parsing' }; 
+    const err = new Error('Parsing error');
+    err.type = 'parsing';
+    throw err;
   }
 
   const channel = doc.querySelector('channel');
   if (!channel) {
-    throw { type: 'parsing' };
+    const err = new Error('Parsing error');
+    err.type = 'parsing';
+    throw err;
   }
 
   const title = channel.querySelector('title')?.textContent || '';
@@ -33,7 +41,9 @@ const parseFeed = (xml) => {
 
   const items = channel.querySelectorAll('item');
   if (items.length === 0) {
-    throw { type: 'parsing' };
+    const err = new Error('Parsing error');
+    err.type = 'parsing';
+    throw err;
   }
 
   const posts = Array.from(items).map(item => ({
@@ -44,4 +54,4 @@ const parseFeed = (xml) => {
   return { feed: { title, description }, posts };
 };
 
-export { loadFeed, parseFeed }
+export { loadFeed, parseFeed };
