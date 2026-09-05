@@ -10,6 +10,8 @@
       <h1 class="display-4">RSS агрегатор</h1>
       <p class="lead">Начните читать RSS сегодня! Это легко, это красиво.</p>
 
+      <div id="message-container"></div>
+
       <form id="rss-form" class="mt-4">
         <div class="mb-3">
           <label for="rss-url" class="form-label">Ссылка RSS</label>
@@ -35,12 +37,14 @@
 
     <!-- Нативное модальное окно (dialog) -->
     <dialog id="postModal" data-test="modal-body">
-      <h5 id="postModalTitle">Заголовок</h5>
-      <p id="postModalBody">Описание поста</p>
-      <footer>
-        <button id="modalCloseBtn" class="btn btn-secondary">Закрыть</button>
-        <a href="#" id="postModalLink" class="btn btn-primary" target="_blank">Читать полностью</a>
-      </footer>
+      <div class="modal-content">
+        <h5 id="postModalTitle">Заголовок</h5>
+        <p id="postModalBody">Описание поста</p>
+        <footer>
+          <button id="modalCloseBtn" class="btn btn-secondary">Закрыть</button>
+          <a href="#" id="postModalLink" class="btn btn-primary" target="_blank">Читать полностью</a>
+        </footer>
+      </div>
     </dialog>
 
     <script type="module" src="/src/main.js"></script>

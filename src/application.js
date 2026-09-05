@@ -43,6 +43,8 @@ export default function runApp() {
           startUpdating();
         }
 
+        state.form.successMessage = 'RSS успешно загружен';
+
         state.form.url = '';
         state.form.isValid = false;
         state.form.errorKey = null;
@@ -57,6 +59,7 @@ export default function runApp() {
         else if (err.type === 'parsing') key = 'errors.parsing';
         state.form.isValid = false;
         state.form.errorKey = key;
+        state.form.successMessage = null;
       });
   });
 
@@ -67,6 +70,7 @@ export default function runApp() {
     if (url === '') {
       state.form.isValid = false;
       state.form.errorKey = null;
+      state.form.successMessage = null;
       return;
     }
 
@@ -74,6 +78,7 @@ export default function runApp() {
       .then(() => {
         state.form.isValid = true;
         state.form.errorKey = null;
+        state.form.successMessage = null;
       })
       .catch((err) => {
         state.form.isValid = false;
@@ -81,6 +86,7 @@ export default function runApp() {
         if (err.type === 'required') key = 'errors.required';
         else if (err.type === 'url') key = 'errors.url';
         state.form.errorKey = key;
+        state.form.successMessage = null;
       });
   });
 }

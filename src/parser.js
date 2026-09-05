@@ -49,6 +49,7 @@ const parseFeed = (xml) => {
   const posts = Array.from(items).map(item => ({
     title: item.querySelector('title')?.textContent || '',
     link: item.querySelector('link')?.textContent || '',
+    description: item.querySelector('description')?.textContent || '', // ← ДОБАВЛЕНО
   }));
 
   return { feed: { title, description }, posts };

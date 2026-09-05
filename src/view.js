@@ -93,7 +93,17 @@ const render = () => {
   const feedbackEl = input?.nextElementSibling;
   const feedsContainer = document.querySelector('#feeds-container');
   const postsContainer = document.querySelector('#posts-container');
+  const successMessageEl = document.getElementById('success-message');
 
+  if (successMessageEl) {
+    if (snap.form.successMessage) {
+      successMessageEl.textContent = snap.form.successMessage;
+      successMessageEl.style.display = 'block';
+    } else {
+      successMessageEl.style.display = 'none';
+    }
+  }
+  
   updateInputValue(input, snap.form.url);
   updateFeedback(input, feedbackEl, snap.form.errorKey);
 
