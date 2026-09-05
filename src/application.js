@@ -44,7 +44,7 @@ export default function runApp() {
         }
 
         state.form.url = '';
-        state.form.isValid = false; 
+        state.form.isValid = false;
         state.form.errorKey = null;
         input.focus();
       })
@@ -61,8 +61,26 @@ export default function runApp() {
   });
 
   input.addEventListener('input', () => {
-    if (state.form.errorKey) {
+    const url = input.value.trim();
+    state.form.url = url;
+
+    if (url === '') {
+      state.form.isValid = false;
       state.form.errorKey = null;
+      return;
     }
+
+    validateUrl(url)
+      .then(() => {
+        state.form.isValid = true;
+        state.form.errorKey = null;
+      })
+      .catch((err) => {
+        state.form.isValid = false;
+        let key = 'errors.unknown';
+        if (err.type === 'required') key = 'errors.required';
+        else if (err.type === 'url') key = 'errors.url';
+        state.form.errorKey = key;
+      });
   });
 }
