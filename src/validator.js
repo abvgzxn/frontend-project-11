@@ -3,8 +3,8 @@ import { state } from './state.js';
 
 
 const urlShema = yup.string()
-.required()
-.url()
+.required('errors.required')
+.url('errors.url')
 .test('unique','duplicate', function (value) {
 const exists = state.feeds.some(feed => feed.url === value);
 return !exists

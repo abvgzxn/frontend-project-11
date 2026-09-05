@@ -39,7 +39,7 @@ export default function runApp() {
           }
 
         state.form.url = '';
-        state.form.isValid = false;
+        state.form.isValid = true;
         state.form.errorKey = null;
         input.focus();
       })
