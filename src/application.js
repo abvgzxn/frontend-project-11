@@ -33,6 +33,7 @@ export default function runApp() {
           id: uniqueId('post_'),
           title: post.title || 'Без заголовка',
           link: post.link || '#',
+          description: post.description || '',
           feedId: feedId,
         }));
 

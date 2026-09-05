@@ -85,7 +85,6 @@ const closeModal = () => {
   if (modal) modal.close();
 };
 
-
 const render = () => {
   const snap = snapshot(state);
   const input = document.getElementById('rss-url');
@@ -93,17 +92,16 @@ const render = () => {
   const feedbackEl = input?.nextElementSibling;
   const feedsContainer = document.querySelector('#feeds-container');
   const postsContainer = document.querySelector('#posts-container');
-  const successMessageEl = document.getElementById('success-message');
+  const messageContainer = document.querySelector('#message-container');
 
-  if (successMessageEl) {
+  if (messageContainer) {
     if (snap.form.successMessage) {
-      successMessageEl.textContent = snap.form.successMessage;
-      successMessageEl.style.display = 'block';
+      messageContainer.innerHTML = `<div class="alert alert-success">${snap.form.successMessage}</div>`;
     } else {
-      successMessageEl.style.display = 'none';
+      messageContainer.innerHTML = '';
     }
   }
-  
+
   updateInputValue(input, snap.form.url);
   updateFeedback(input, feedbackEl, snap.form.errorKey);
 
@@ -125,7 +123,6 @@ const render = () => {
   renderFeeds(feedsContainer, snap.feeds);
   renderPosts(postsContainer, snap.posts, snap.readPosts);
 };
-
 
 export const initView = () => {
   const closeBtn = document.getElementById('modalCloseBtn');
