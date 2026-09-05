@@ -1,12 +1,11 @@
 import { snapshot, subscribe } from 'valtio/vanilla';
 import { state } from './state.js';
 import { i18n } from './i18n.js';
-import { Modal } from 'bootstrap';
 
 const render = () => {
   const snap = snapshot(state);
   const input = document.getElementById('rss-url');
-  const submitButton = document.querySelector('#rss-form button[type="submit"]'); // переименовано в submitButton
+  const submitButton = document.querySelector('#rss-form button[type="submit"]');
   const feedbackEl = input?.nextElementSibling;
   const feedsContainer = document.querySelector('#feeds-container');
   const postsContainer = document.querySelector('#posts-container');
@@ -40,10 +39,7 @@ const render = () => {
   }
 
   feedsContainer.innerHTML = '';
-  postsContainer.innerHTML = '';
   feedsContainer.innerHTML = `<h3>${i18n.t('sections.feeds')}</h3>`;
-  postsContainer.innerHTML = `<h3>${i18n.t('sections.posts')}</h3>`;
-
   if (snap.feeds.length > 0) {
     const feedList = document.createElement('div');
     snap.feeds.forEach(feed => {
@@ -54,43 +50,49 @@ const render = () => {
     feedsContainer.appendChild(feedList);
   }
 
+  postsContainer.innerHTML = '';
+  postsContainer.innerHTML = `<h3>${i18n.t('sections.posts')}</h3>`;
   if (snap.posts.length > 0) {
     const postList = document.createElement('ul');
     snap.posts.forEach(post => {
       const li = document.createElement('li');
-
       const container = document.createElement('div');
       container.style.display = 'flex';
       container.style.alignItems = 'center';
       container.style.gap = '8px';
 
-      const a = document.createElement ('a');
+      const a = document.createElement('a');
       a.href = post.link;
       a.textContent = post.title;
       a.target = '_blank';
-
       const isRead = snap.readPosts.includes(post.id);
+      a.dataset.seen = isRead ? 'true' : 'false';
       a.className = isRead ? 'fw-normal' : 'fw-bold';
 
       const previewBtn = document.createElement('button');
       previewBtn.type = 'button';
       previewBtn.className = 'btn btn-sm btn-outline-primary';
       previewBtn.textContent = i18n.t('buttons.preview');
-      previewBtn.addEventListener ('click', (e) => {
+
+      previewBtn.addEventListener('click', (e) => {
         e.stopPropagation();
 
         if (!state.readPosts.includes(post.id)) {
           state.readPosts.push(post.id);
         }
+
+        const modal = document.getElementById('postModal');
         const modalTitle = document.getElementById('postModalTitle');
         const modalBody = document.getElementById('postModalBody');
         const modalLink = document.getElementById('postModalLink');
+
         modalTitle.textContent = post.title;
         modalBody.textContent = post.description || 'Нет описания';
         modalLink.href = post.link;
-        const modal = new Modal (document.getElementById('postModal'));
-        modal.show();
+
+        modal.showModal();
       });
+
       container.append(a, previewBtn);
       li.appendChild(container);
       postList.appendChild(li);
@@ -100,6 +102,23 @@ const render = () => {
 };
 
 export const initView = () => {
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', () => {
+      const modal = document.getElementById('postModal');
+      if (modal) modal.close();
+    });
+  }
+
+  const modal = document.getElementById('postModal');
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.close();
+      }
+    });
+  }
+
   render();
   subscribe(state, render);
 };
