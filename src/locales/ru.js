@@ -7,19 +7,22 @@ export default {
       submit: 'Добавить',
     },
     sections: {
-      feeds: 'Ленты',
-      posts: 'Посты'
+      feeds: 'Фиды',
+      posts: 'Посты',
     },
     errors: {
       required: 'Не должно быть пустым',
       url: 'Ссылка должна быть валидным URL',
-      duplicate: 'Этот RSS-поток уже добавлен',
+      duplicate: 'RSS уже существует',
       unknown: 'Неизвестная ошибка',
-      network: 'Сетевая ошибка. Пожалуйста, попробуйте еще раз.',
-      parsing: 'Неверный формат RSS-ленты'
+      network: 'Ошибка сети',            
+      parsing: 'Ресурс не содержит валидный RSS', 
     },
     buttons: {
-      preview: 'Просмотр'
-    }
+      preview: 'Просмотр',
+    },
+    success: {
+      feedAdded: 'RSS успешно загружен',
+    },
   },
 };

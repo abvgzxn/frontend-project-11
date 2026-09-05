@@ -8,18 +8,21 @@ export default {
     },
     sections: {
       feeds: 'Feeds',
-      posts: 'Posts'
+      posts: 'Posts',
     },
     errors: {
       required: 'Must not be empty',
       url: 'Must be a valid URL',
-      duplicate: 'This RSS feed is already added',
+      duplicate: 'RSS already exists',
       unknown: 'Unknown error',
-      network: 'Network error. Please try again.',
-      parsing: 'Invalid RSS feed format'
+      network: 'Network error',
+      parsing: 'Resource does not contain valid RSS',
     },
     buttons: {
-      preview: 'Preview'
-    }
+      preview: 'Preview',
+    },
+    success: {
+      feedAdded: 'RSS successfully loaded',
+    },
   },
 };
