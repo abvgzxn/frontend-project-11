@@ -25,7 +25,11 @@ const renderFeeds = (container, feeds) => {
   const list = document.createElement('div');
   feeds.forEach(feed => {
     const el = document.createElement('div');
-    el.innerHTML = `<b>${feed.title}</b><p>${feed.description}</p>`;
+    const title = document.createElement('h3');
+    title.textContent = feed.title;
+    const description = document.createElement('p');
+    description.textContent = feed.description;
+    el.append(title, description);
     list.appendChild(el);
   });
   container.appendChild(list);
@@ -46,6 +50,9 @@ const renderPosts = (container, posts, readPosts) => {
     link.href = post.link;
     link.textContent = post.title;
     link.target = '_blank';
+    link.addEventListener('click', () => {
+      if (!state.readPosts.includes(post.id)) state.readPosts.push(post.id);
+    });
     const isRead = readPosts.includes(post.id);
     link.dataset.seen = isRead ? 'true' : 'false';
     link.className = isRead ? 'fw-normal' : 'fw-bold';
@@ -57,7 +64,7 @@ const renderPosts = (container, posts, readPosts) => {
     previewBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (!readPosts.includes(post.id)) {
-        readPosts.push(post.id);
+        state.readPosts.push(post.id);
       }
       openModal(post);
     });
@@ -106,7 +113,7 @@ const render = () => {
   updateFeedback(input, feedbackEl, snap.form.errorKey);
 
   if (submitButton) {
-    submitButton.disabled = !snap.form.isValid;
+    submitButton.disabled = snap.form.isLoading;
     if (submitButton.textContent !== i18n.t('form.submit')) {
       submitButton.textContent = i18n.t('form.submit');
     }

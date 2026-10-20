@@ -10,8 +10,11 @@ export default function runApp() {
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (state.form.isLoading) return;
     const url = input.value.trim();
     state.form.url = url;
+    state.form.isLoading = true;
+    state.form.successMessage = null;
 
     validateUrl(url)
       .then(() => {
@@ -61,33 +64,16 @@ export default function runApp() {
         state.form.isValid = false;
         state.form.errorKey = key;
         state.form.successMessage = null;
+      })
+      .finally(() => {
+        state.form.isLoading = false;
       });
   });
 
   input.addEventListener('input', () => {
-    const url = input.value.trim();
-    state.form.url = url;
-
-    if (url === '') {
-      state.form.isValid = false;
-      state.form.errorKey = null;
-      state.form.successMessage = null;
-      return;
-    }
-
-    validateUrl(url)
-      .then(() => {
-        state.form.isValid = true;
-        state.form.errorKey = null;
-        state.form.successMessage = null;
-      })
-      .catch((err) => {
-        state.form.isValid = false;
-        let key = 'errors.unknown';
-        if (err.type === 'required') key = 'errors.required';
-        else if (err.type === 'url') key = 'errors.url';
-        state.form.errorKey = key;
-        state.form.successMessage = null;
-      });
+    state.form.url = input.value;
+    state.form.isValid = false;
+    state.form.errorKey = null;
+    state.form.successMessage = null;
   });
 }

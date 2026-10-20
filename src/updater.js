@@ -36,6 +36,7 @@ const updateAllFeeds = () => {
               id: uniqueId('post_'),
               title: post.title,
               link: post.link,
+              description: post.description,
               feedId: feed.id,
             });
           });

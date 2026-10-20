@@ -40,16 +40,10 @@ const parseFeed = (xml) => {
   const description = channel.querySelector('description')?.textContent || '';
 
   const items = channel.querySelectorAll('item');
-  if (items.length === 0) {
-    const err = new Error('Parsing error');
-    err.type = 'parsing';
-    throw err;
-  }
-
   const posts = Array.from(items).map(item => ({
     title: item.querySelector('title')?.textContent || '',
     link: item.querySelector('link')?.textContent || '',
-    description: item.querySelector('description')?.textContent || '', // ← ДОБАВЛЕНО
+    description: item.querySelector('description')?.textContent || '',
   }));
 
   return { feed: { title, description }, posts };

@@ -3,6 +3,8 @@ import { proxy, subscribe } from 'valtio/vanilla';
 const initialState = {
   form: {
     url: '',
+    isLoading: false,
+    successMessage: null,
     isValid: false,
     errorKey: null,
   },
