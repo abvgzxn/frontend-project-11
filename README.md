@@ -19,3 +19,25 @@ RSS агрегатор — веб-приложение для удобного �
 Установка зависимостей:
 ```bash
 make install
+```
+
+Запуск сервера разработки: `make develop`.
+
+Локальные проверки (Node.js 22.12+):
+```bash
+make build
+make lint
+node --test tests/*.test.mjs
+```
+
+Регрессионные тесты проверяют типы ошибок Yup, повторную валидацию,
+кодирование URL прокси и обработку сетевого отказа. Они не заменяют
+браузерные тесты Hexlet и не требуют подключения к RSS-сервисам.
+
+Hexlet Check запускается workflow `.github/workflows/hexlet-check.yml`
+при push в любую ветку через `hexlet/project-action@release` с секретом
+`HEXLET_ID`. Исходников тестов Hexlet и локальной команды их запуска
+в репозитории нет. После разрешённого push откройте GitHub Actions →
+hexlet-check → запуск для нужного коммита → Hexlet project check.
+Проверьте validation (unique), validation (valid url), render feed and posts
+и modal, а также остальные сценарии. Push и создание PR выполняются отдельно.

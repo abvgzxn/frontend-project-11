@@ -12,7 +12,7 @@
 
       <div id="message-container"></div>
 
-      <form id="rss-form" class="mt-4">
+      <form id="rss-form" class="mt-4" novalidate>
         <div class="mb-3">
           <label for="rss-url" class="form-label">Ссылка RSS</label>
           <input
@@ -35,11 +35,10 @@
       <div id="posts-container" class="mt-4"></div>
     </div>
 
-    <!-- Нативное модальное окно (dialog) -->
-    <dialog id="postModal" data-test="modal-body">
+    <dialog id="postModal">
       <div class="modal-content">
         <h5 id="postModalTitle">Заголовок</h5>
-        <p id="postModalBody">Описание поста</p>
+        <p id="postModalBody" data-test="modal-body">Описание поста</p>
         <footer>
           <button id="modalCloseBtn" class="btn btn-secondary">Закрыть</button>
           <a href="#" id="postModalLink" class="btn btn-primary" target="_blank">Читать полностью</a>
